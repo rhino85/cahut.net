@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Markdown Editor</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/marked@0.3.6"></script>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+  </head>
+  <body>
+  	<% if (user) { %>
+	<%= user.username %>
+	<div id="app">
+		<textarea :value="input" @input="update"><%= data.mrkdwn %></textarea>
+		<div v-html="compiledMarkdown"><%= data.html %></div>
+	</div>
+	<form method="POST" >
+		<div>
+			<textarea name="textarea"><%= data %></textarea>
+		</div>
+		<div>
+		  <button>Save</button>
+		</div>
+	</form>
+<% } else { %>
+	<div>
+		<textarea name="textarea" ><%= data %></textarea>
+	</div>
+<% } %>
+
+<script>
+	new Vue({
+	  el: "#app",
+	  data: {
+		data
+	  },
+	  computed: {
+		compiledMarkdown: function() {
+		  return marked(this.input, { sanitize: true });
+		}
+	  },
+	  methods: {
+		update: function(e) {
+		  this.input = e.target.value;
+		}
+	  }
+	});
+  </script>
+</body>

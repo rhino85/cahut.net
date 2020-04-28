@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AppTest</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/marked@0.3.6"></script>
+    <script src="dompurify.js"></script>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <script type="text/x-template" id="editor-template">
+      <div id="main">
+        <div id="html" v-html="compiledMarkdown"></div>
+        <form v-if="user" 
+          @submit="submit"
+          novalidate="true"
+        >
+          <textarea id="textarea" :value="data.markdown" @input="update"></textarea>
+          <input id="button"
+            type="submit"
+            value="Submit"
+          >
+        </form>
+      </div>
+    </script>
+    <script type="text/x-template" id="login-template">
+      <div id="login-form">
+        <form 
+          @submit="submit"
+          novalidate="true"
+        >
+        <div>
+          <input type="text" name="username" v-model="user"/>
+          <br/>
+        </div>
+        <div>
+          <input type="password" name="password" v-model="password"/>
+        </div>
+        <input id="button"
+          type="submit"
+          value="Submit"
+        >
+        </form>
+        
+      </div>
+  </script>
+  </head>
+  <body>
+    <div id="app">
+
+      <editor></editor>
+      <logsession></logsession>
+    </div>
+    
+    <script>
+      var a = <%-JSON.stringify(a)%> ;
+
+      
+      console.log(a);
+ 
+            
+      var logsession = Vue.component('logsession', {
+        data: function () {
+            return {
+              a:a.data,
+              user:a.user,
+              password:null
+
+            }
+        },
+        template: "#login-template",
+        
+        methods: {
+          submit: function(e) {
+            console.log(this);
+            fetch("/login", {
+              method: 'post',
+              headers: {
+               'Accept': 'application/json, text/plain, */*',
+               'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({username:this.user, password:this.password})
+              }).then(function(response) {
+                return response.json();
+              }).then((data) => {
+                console.log(data);
+                a.user = data.username;
+              });
+             e.preventDefault();
+
+          }
+
+        }
+      })
+      var vueEditor = Vue.component('editor',{
+        props : {}, 
+        data: function () {
+            return a
+        },
+        template: "#editor-template",
+        computed: {
+          compiledMarkdown: function() {
+            this.data.html = DOMPurify.sanitize(marked(this.data.markdown, { sanitize: true }));
+            return this.data.html;
+          }
+        },
+        methods: {
+          update: function(e) {
+            //console.log(vueEditor);
+            //console.log({html:vueEditor.$data.html, textarea:vueEditor.$data.input});
+            this.data.markdown = e.target.value;
+          },
+          submit: function(e) {
+            console.log({html:this.data.html, markdown:this.data.markdown});
+            
+
+            
+            fetch(this.data.url, {
+              method: 'post',
+              headers: {
+               'Accept': 'application/json, text/plain, */*',
+               'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({html:this.data.html, markdown:this.data.markdown})
+             });
+             e.preventDefault();
+
+          }
+        }
+      });
+      var vueApp = new Vue({el: "#app"});
+    </script>
+  </body>
+</html>
