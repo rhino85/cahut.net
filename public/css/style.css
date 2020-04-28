@@ -15,7 +15,7 @@ div {
   border-width: 0px;
 }
 div:hover {
-  border-width: 0px;
+  border-width: 1px;
 }
 
 a {
@@ -43,24 +43,25 @@ a:hover {
 }
 
 #textarea{
-  position: fixed;
-  top : 2%;
-  left : 2%;
+  display:block;
+  position: relative;
+  top : 0;
+  left : 0;
 }
 
 #html{
   width : 33%;
-  position: absolute;
+  position: relative;
   top:0;
   left : 0;
   right : 0;
   padding: 2% 5%;
   margin: 0 auto;
-
 }
 #button{
-  position: fixed;
-  bottom : 2%;
+display : block;
+ position: relative;
+ right:0;
 
 }
 
@@ -76,11 +77,22 @@ img{
 #login-form{
   position : absolute;
   right : 0;
+  top : 0;
 }
 
 
 #app{
-  width: 100%;
+  position: absolute;
+  right: 0;
+  left: 0;
+  width: 96%;
+  margin : 2% auto;
+  
+}
 
+#textinput{
+  position: absolute;
+  left : 0;
+  top : 0;
 }
 

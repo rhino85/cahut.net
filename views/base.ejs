@@ -9,16 +9,18 @@
     <script type="text/x-template" id="editor-template">
       <div id="main">
         <div id="html" v-html="compiledMarkdown"></div>
-        <form v-if="user" 
-          @submit="submit"
-          novalidate="true"
-        >
-          <textarea id="textarea" :value="data.markdown" @input="update"></textarea>
-          <input id="button"
-            type="submit"
-            value="Submit"
+        <div id="textinput" v-if="user">
+          <form 
+            @submit="submit"
+            novalidate="true"
           >
-        </form>
+            <textarea id="textarea" :value="data.markdown" @input="update"></textarea>
+            <input id="button"
+              type="submit"
+              value="Submit"
+            >
+          </form>
+        </div>
       </div>
     </script>
     <script type="text/x-template" id="login-template">
