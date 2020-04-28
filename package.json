@@ -1,21 +1,14 @@
 {
-  "name": "express-4.x-local-example",
+  "name": "cahut.net",
   "version": "0.0.0",
-  "description": "Express 4.x app using Passport for authentication with username and password.",
-  "keywords": [
-    "example",
-    "express",
-    "passport"
-  ],
-  "author": "Jared Hanson",
+  "description": "work in progress",
+  "keywords": [],
+  "author": "Arthur Baty",
   "license": "Unlicense",
-  "homepage": "https://github.com/passport/express-4.x-local-example",
+  "homepage": "https://github.com/rhino85/cahut.net",
   "repository": {
     "type": "git",
-    "url": "git://github.com/passport/express-4.x-local-example.git"
-  },
-  "bugs": {
-    "url": "https://github.com/passport/express-4.x-local-example/issues"
+    "url": "https://github.com/rhino85/cahut.net"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -23,9 +16,7 @@
     "ejs": "^2.6.2",
     "express": "^4.17.1",
     "express-session": "^1.16.1",
-    "morgan": "^1.9.1",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
-    "simplemde": "^1.11.2"
+    "passport-local": "^1.0.0"
   }
 }

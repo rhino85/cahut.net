@@ -51,7 +51,6 @@ app.set('view engine', 'ejs');
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
-//app.use(require('morgan')('combined'));
 app.use(express.json()) // for parsing application/json
 //app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
