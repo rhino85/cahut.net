@@ -5,11 +5,7 @@ var Strategy = require('passport-local').Strategy;
 var db = require('./db');
 
 // Configure the local strategy for use by Passport.
-//
-// The local strategy require a `verify` function which receives the credentials
-// (`username` and `password`) submitted by the user.  The function must verify
-// that the password is correct and then invoke `cb` with a user object, which
-// will be set at `req.user` in route handlers after authentication.
+
 passport.use(new Strategy(
   function(username, password, done) {
     console.log("newstrat");
@@ -21,13 +17,6 @@ passport.use(new Strategy(
     });
   }));
 
-// Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  The
-// typical implementation of this is as simple as supplying the user ID when
-// serializing, and querying the user record by ID from the database when
-// deserializing.
 passport.serializeUser(function(user, cb) {
   console.log("serialised")
   cb(null, user.id);
@@ -52,7 +41,6 @@ app.set('view engine', 'ejs');
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 app.use(express.json()) // for parsing application/json
-//app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 
@@ -63,17 +51,15 @@ app.use(passport.session());
 
 var routes = new Object();                            //object that deals with routes
 routes.map = new Map();                               //it got a map to store them
-routes.handler = function(req, res, next){            //now thats a middlewar 
-  console.log("routehandler");
+routes.handler = function(req, res, next){            //now thats a middlewar
   if(!routes.map.has(req.originalUrl)){               //if route doesn't already exist:
   var route = {
     url:req.originalUrl,
     markdown:"nothing yet",
     html : "nothing yet"
   };
-    routes.map.set(req.originalUrl, route);       //register it in the map  
+    routes.map.set(req.originalUrl, route);           //register it in the map  
   }
-  //console.log(routes.map.get(req.originalUrl).content);
   next();
 }
 
@@ -82,15 +68,6 @@ app.use(routes.handler);
 
 let prefix = "";
 // Define routes.
-
-  
-/*
-app.post(prefix+'/login', 
-  passport.authenticate('local', { failureRedirect: prefix+'/login' }),
-  function(req, res) {
-    console.log(req.body);
-    res.redirect(prefix+'/');
-  });*/
 
   app.post(prefix+'/login', function(req, res, next) {
     
@@ -104,7 +81,7 @@ app.post(prefix+'/login',
       } else {
         req.login(user, function(err){
           console.log("req.login");
-          //console.log(err);
+
           res.json(user);
         })
       }
