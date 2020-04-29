@@ -15,7 +15,7 @@ div {
   border-width: 0px;
 }
 div:hover {
-  border-width: 1px;
+  border-width: 0px;
 }
 
 a {
@@ -58,9 +58,9 @@ a:hover {
   padding: 2% 5%;
   margin: 0 auto;
 }
-#button{
+.button{
 display : block;
- position: relative;
+ position: absolute;
  right:0;
 
 }
