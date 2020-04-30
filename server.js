@@ -112,7 +112,8 @@ app.get(prefix+'/logout',
       routes.map.get(req.originalUrl).markdown = req.body.markdown;
       routes.map.get(req.originalUrl).html = req.body.html;
 
-      res.redirect(prefix+req.originalUrl);
+      //here db stuff
+
     }  else {res.send("???");}
   });
   
