@@ -8,14 +8,66 @@ body{
   font-family: 'Linux Libertine', Arial, sans-serif;
   font-size: 1.2em;
   color: #333;
+  box-sizing: border-box;
   
 }
 div {
   border-style: solid;
   border-width: 0px;
+  box-sizing: border-box;
 }
-div:hover {
-  border-width: 0px;
+
+
+
+#app{
+  position: absolute;
+  right: 0;
+  left: 0;
+  width: 96%;
+  margin : 2% auto;
+  
+}
+
+#main{
+  position : relative;
+  width : 100%;
+  top:0%;
+  left:0;
+  right:0;
+  margin: auto;
+
+}
+
+#textinput{
+  position: fixed;
+  height: 25%;
+  min-width : 29%;
+  top : 15%;
+  left : 2%;
+}
+
+#textarea{
+  box-sizing: border-box;
+  display:block;
+  position: relative;
+  top : 0;
+  right : 0;
+  left : 0;
+  width : 100%;
+  height: 100%;
+  
+  resize: both;
+  margin : auto;
+}
+
+#html{
+  width : 33%;
+  position: relative;
+  top:0;
+  left : 0;
+  right : 0;
+  padding: 0% 0%;
+  margin: 0 auto;
 }
 
 a {
@@ -31,40 +83,6 @@ a:hover {
   color:#333;
 }
 
-
-#main{
-  position : relative;
-  width : 100%;
-  top:0%;
-  left:0;
-  right:0;
-  margin: auto;
-
-}
-
-#textarea{
-  display:block;
-  position: relative;
-  top : 0;
-  left : 0;
-}
-
-#html{
-  width : 33%;
-  position: relative;
-  top:0;
-  left : 0;
-  right : 0;
-  padding: 2% 5%;
-  margin: 0 auto;
-}
-.button{
-display : block;
- position: absolute;
- right:0;
-
-}
-
 img{
   position: relative;
   display:block;
@@ -74,6 +92,16 @@ img{
   margin: 0 auto;
 }
 
+
+.button{
+display : block;
+ position: absolute;
+ right:0;
+
+}
+
+
+
 #login-form{
   position : absolute;
   right : 0;
@@ -81,18 +109,7 @@ img{
 }
 
 
-#app{
-  position: absolute;
-  right: 0;
-  left: 0;
-  width: 96%;
-  margin : 2% auto;
-  
-}
 
-#textinput{
-  position: absolute;
-  left : 0;
-  top : 0;
-}
+
+
 

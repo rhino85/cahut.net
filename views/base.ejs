@@ -10,16 +10,9 @@
       <div id="main">
         <div id="html" v-html="compiledMarkdown"></div>
         <div id="textinput" v-if="user">
-          <form 
-            @submit="submit"
-            novalidate="true"
-          >
-            <textarea id="textarea" :value="data.markdown" @input="update"></textarea>
-            <input class="button"
-              type="submit"
-              value="Submit"
-            >
-          </form>
+        <textarea id="textarea" :value="data.markdown" @input="update"></textarea>
+            
+
         </div>
       </div>
     </script>
@@ -72,7 +65,6 @@
         
         methods: {
           submit: function(e) {
-            console.log(this);
             fetch("/login", {
               method: 'post',
               headers: {
@@ -106,15 +98,11 @@
         },
         methods: {
           update: function(e) {
-            //console.log(vueEditor);
-            //console.log({html:vueEditor.$data.html, textarea:vueEditor.$data.input});
+            //console.log(e);
             this.data.markdown = e.target.value;
+            this.submit();
           },
-          submit: function(e) {
-            console.log({html:this.data.html, markdown:this.data.markdown});
-            
-
-            
+          submit: function() {
             fetch(this.data.url, {
               method: 'post',
               headers: {
@@ -123,8 +111,6 @@
               },
               body: JSON.stringify({html:this.data.html, markdown:this.data.markdown})
              });
-             e.preventDefault();
-
           }
         }
       });
