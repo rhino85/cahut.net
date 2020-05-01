@@ -1,8 +1,11 @@
 var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
+const jsonfile = require('jsonfile')
+var fs = require('fs');
 
 var db = require('./db');
+
 
 // Configure the local strategy for use by Passport.
 
@@ -52,15 +55,35 @@ app.use(passport.session());
 var routes = new Object();                            //object that deals with routes
 routes.map = new Map();                               //it got a map to store them
 routes.handler = function(req, res, next){            //now thats a middlewar
-  if(!routes.map.has(req.originalUrl)){               //if route doesn't already exist:
-  var route = {
-    url:req.originalUrl,
-    markdown:"nothing yet",
-    html : "nothing yet"
-  };
-    routes.map.set(req.originalUrl, route);           //register it in the map  
+  if(!routes.map.has(req.originalUrl)){               //if route doesn't already exist in memory
+  jsonfile.readFile('public/html'+req.originalUrl+'.json', function (err, obj) {    // i try to read it from files
+    if (err) {                                                                      // if not in files (i guess)
+      console.log('gni');
+      console.error(err)
+      var route = {                                                                 //i create a route object to store in memory
+        url:req.originalUrl,
+        markdown:"nothing yet",
+        html : "nothing yet",
+        nothing : 1                                                                    //stating it is not modified yet (latter use : no need to look for a file if nothing = 1)
+      };
+      routes.map.set(req.originalUrl, route);                             //storing in memory (map object) + populate the req object for next 
+      req.wesh = route;
+    }
+    else {                                                                            //(else) the file already exist ! (i guess)
+      routes.map.set(req.originalUrl, obj);                               //storing in memory (map object) + populate the req object for next 
+      req.wesh = obj;
+
+    }
+    next();                                                                         //ok next
+  });
   }
-  next();
+  else {                                                                            //if route already registred in memory
+    routes.map.get(req.originalUrl);
+    req.wesh = routes.map.get(req.originalUrl);
+
+    next();
+  }
+
 }
 
 app.use(express.static('public'))
@@ -95,25 +118,40 @@ app.get(prefix+'/logout',
   });
 
   app.get(prefix+'/*', function(req, res){
-
-    console.log("get /*");
+    console.log("gna");
+    console.dir(req.wesh);
     if(req.user){
-      res.render('base', {a:{ user: req.user.username, prefix:prefix, data:routes.map.get(req.originalUrl) }});
-    }  
-    else {
-      res.render('base', {a:{user: 0, prefix:prefix, data:routes.map.get(req.originalUrl) }});
-    }
-     });
+        res.render('base', {a:{ user: req.user.username, prefix:prefix, data:req.wesh }});
+      }  
+      else {
+        res.render('base', {a:{user: 0, prefix:prefix, data:req.wesh }});
+      }
+
+  });
 
   app.post(prefix+'/*', 
   function(req, res) {
-    if(req.user){
 
+    if(req.user){
       routes.map.get(req.originalUrl).markdown = req.body.markdown;
       routes.map.get(req.originalUrl).html = req.body.html;
-
-      //here db stuff
-
+      console.log(req.originalUrl);
+      fs.mkdir('public/html'+req.originalUrl, { recursive: true }, 
+        (err) => { 
+          if (err) { 
+            return console.error(1 + err); 
+          }
+          jsonfile.writeFile('public/html'+req.originalUrl+'.json', routes.map.get(req.originalUrl), function (err) {
+            if (err) {
+              console.error(2 + err);
+              res.send("error saving");
+            }
+            else {
+              console.log('saved');
+              res.send("saved");
+            }
+          })
+      });
     }  else {res.send("???");}
   });
   

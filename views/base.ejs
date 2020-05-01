@@ -4,8 +4,8 @@
     <title>AppTest</title>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/marked@0.3.6"></script>
-    <script src="js/dompurify.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script src="/js/dompurify.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <script type="text/x-template" id="editor-template">
       <div id="main">
         <div id="html" v-html="compiledMarkdown"></div>
@@ -18,7 +18,9 @@
     </script>
     <script type="text/x-template" id="login-template">
       <div id="login-form">
-        <form 
+        <span type="button" id="log" @click="showhide" >.</span>
+        <form
+          v-if="show"
           @submit="submit"
           novalidate="true"
         >
@@ -57,13 +59,18 @@
             return {
               a:a.data,
               user:a.user,
-              password:null
+              password:null,
+              show:false
 
             }
         },
         template: "#login-template",
         
         methods: {
+          showhide: function(e) {
+            this.show = !this.show
+          },
+
           submit: function(e) {
             fetch("/login", {
               method: 'post',
@@ -79,6 +86,7 @@
                 a.user = data.username;
               });
              e.preventDefault();
+             this.showhide(e)
 
           }
 

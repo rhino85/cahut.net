@@ -100,12 +100,20 @@ display : block;
 
 }
 
+#log{
+  border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
 
+    background: transparent;
+}
+#log:focus { outline: none; }
 
 #login-form{
-  position : absolute;
-  right : 0;
-  top : 0;
+  position : fixed;
+  right : 2%;
+  bottom : 2em;
 }
 
 
