@@ -124,7 +124,7 @@ app.get(prefix+'/logout',
         res.render('base', {a:{ user: req.user.username, prefix:prefix, data:req.wesh }});
       }  
       else {
-        res.render('base', {a:{user: 0, prefix:prefix, data:req.wesh }});
+        res.render('base', {a:{user: 1, prefix:prefix, data:req.wesh }});
       }
 
   });
@@ -132,16 +132,19 @@ app.get(prefix+'/logout',
   app.post(prefix+'/*', 
   function(req, res) {
 
-    if(req.user){
-      routes.map.get(req.originalUrl).markdown = req.body.markdown;
-      routes.map.get(req.originalUrl).html = req.body.html;
+    if(!req.user){     /// BEWARE I TURNED OFF AUTH, anyway not very important for now
+    
+      routes.map.get(req.originalUrl).markdown = req.body.markdown;           //storing data in memory
+      routes.map.get(req.originalUrl).html = req.body.html;                
       console.log(req.originalUrl);
-      fs.mkdir('public/html'+req.originalUrl, { recursive: true }, 
+      let dir = 'public/html'+ req.originalUrl.slice(0, req.originalUrl.lastIndexOf('/'));          // path of the directory if any
+      console.log(dir);
+      fs.mkdir(dir, { recursive: true },                                                            //create dir 
         (err) => { 
           if (err) { 
             return console.error(1 + err); 
           }
-          jsonfile.writeFile('public/html'+req.originalUrl+'.json', routes.map.get(req.originalUrl), function (err) {
+          jsonfile.writeFile('public/html'+req.originalUrl+'.json', routes.map.get(req.originalUrl), function (err) {   //write the corresponding map object in file
             if (err) {
               console.error(2 + err);
               res.send("error saving");
@@ -152,7 +155,7 @@ app.get(prefix+'/logout',
             }
           })
       });
-    }  else {res.send("???");}
+    }  else {res.send("???");}                           //in case not auth
   });
   
 
