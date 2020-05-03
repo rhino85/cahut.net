@@ -124,7 +124,7 @@ app.get(prefix+'/logout',
         res.render('base', {a:{ user: req.user.username, prefix:prefix, data:req.wesh }});
       }  
       else {
-        res.render('base', {a:{user: 1, prefix:prefix, data:req.wesh }});
+        res.render('base', {a:{user: 0, prefix:prefix, data:req.wesh }});
       }
 
   });
@@ -132,7 +132,7 @@ app.get(prefix+'/logout',
   app.post(prefix+'/*', 
   function(req, res) {
 
-    if(!req.user){     /// BEWARE I TURNED OFF AUTH, anyway not very important for now
+    if(req.user){     
     
       routes.map.get(req.originalUrl).markdown = req.body.markdown;           //storing data in memory
       routes.map.get(req.originalUrl).html = req.body.html;                
