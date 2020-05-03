@@ -1,1 +1,1 @@
-{"url":"/","markdown":"# [salut](1)\n\n![](truth.jpg)\n\n ","html":"<h1 id=\"-salut-1-\"><a href=\"1\">salut</a></h1>\n<p><img alt=\"\" src=\"truth.jpg\"></p>\n","nothing":1}
+{"url":"/","markdown":"![](/img/truth.jpg)","html":"<p><img alt=\"\" src=\"/img/truth.jpg\"></p>\n","nothing":1}
