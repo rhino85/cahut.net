@@ -1,1 +1,1 @@
-{"url":"/","markdown":"ok test","html":"<p>ok tes</p>\n","nothing":1}
+{"url":"/","markdown":"# Titre\n\ntu te voudras sans doute écrire sur cette page.\n\nPetite synthèse de Markdown :\n\n*italique*\n\n**gras**\n\n[texte du lien](adresse-du-lien)\n\n\n\n","html":"<h1 id=\"titr\">Titr</h1>\n<p>tu te voudras sans doute écrire sur cette page.</p>\n<p>Petite synthèse de Markdown :</p>\n<p><em>italique</em></p>\n<p><strong>gras</strong></p>\n<p><a href=\"adresse-du-lien\">texte du lien</a></p>\n","nothing":1}
