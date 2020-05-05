@@ -86,10 +86,10 @@ a:hover {
 img{
   position: relative;
   display:block;
-  width: 75%;
+  width: 100%;
   right:0;
   left:0;
-  margin: 0 auto;
+  margin: 2% auto;
 }
 
 
