@@ -65,16 +65,14 @@ app.use(passport.session());
 var routes = new Object();                            //object that deals with routes
 routes.map = new Map();                               //it got a map to store them
 routes.handler = function(req, res, next){            //now thats a middlewar
-  console.log("tete de chien " + req.originalUrl);
   if(!routes.map.has(req.path)){               //if route doesn't already exist in memory
   jsonfile.readFile('public/html'+req.path+'.json', function (err, obj) {    // i try to read it from files
     if (err) {                                                                      // if not in files (i guess)
-      console.log('gni');
       console.error(err)
       var route = {                                                                 //i create a route object to store in memory
         url:req.path,
-        markdown:"nothing yet",
-        html : "nothing yet",
+        markdown:"",
+        html : "",
         nothing : 1                                                                    //stating it is not modified yet (latter use : no need to look for a file if nothing = 1)
       };
       routes.map.set(req.path, route);                             //storing in memory (map object) + populate the req object for next 
@@ -171,5 +169,3 @@ app.get(prefix+'/logout',
   
 
 app.listen(3001);
-
-//i am learning github
