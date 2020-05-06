@@ -9,5 +9,10 @@ npm-debug.log
 
 .vscode/
 
-public/html/
+public/html/*
+
+!public/html/salut/
+
+!public/html/.json
+
 public/img/
