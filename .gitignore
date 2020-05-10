@@ -13,4 +13,6 @@ public/html/*
 
 !public/html/salut/
 
+
 public/img/*
+!public/img/.gitkeep
