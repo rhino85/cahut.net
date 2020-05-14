@@ -6,7 +6,7 @@ body{
   margin: 0;
   padding:0;
   font-family: 'Linux Libertine', Arial, sans-serif;
-  font-size: 1.2em;
+  font-size: 1.1em;
   color: #333;
   box-sizing: border-box;
   
@@ -61,7 +61,8 @@ div {
 }
 
 #html{
-  width : 33%;
+  display: block;
+  width : 90%;
   position: relative;
   top:0;
   left : 0;
@@ -75,6 +76,7 @@ a {
   text-decoration: none;
   background-color:#333;
   color: white;
+  word-break:normal;
   
 }
 
@@ -117,7 +119,53 @@ display : block;
 }
 
 
+@media (min-width: 600px) {
+  #html{
+    width : 66%;
+  }
+}
 
+@media (min-width: 1400px) {
+  #html{
+    width : 50%;
+  }
+}
+
+@media (min-width: 1600px) {
+  #html{
+    width : 33%;
+  }
+}
+
+h1{
+  font-size: 3em;
+}
+h2{
+  font-size: 2em;
+}
+h3{
+  font-size: 1.5em;
+}
+
+h4{
+  font-size: 1.4em;
+}
+h5{
+  font-size: 1.3em;
+}
+h6{
+  font-size: 1.2em;
+}
+
+code{
+  display:block;
+  word-break:auto;
+}
+
+#test{
+  display:block;
+  word-break:auto;
+}
 
 
 
