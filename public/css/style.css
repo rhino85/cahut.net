@@ -39,11 +39,11 @@ div {
 }
 
 #textinput{
-  position: fixed;
+  position: absolute;
   height: 25%;
-  min-width : 29%;
+  width: 100%;
   top : 15%;
-  left : 2%;
+  right : 0%;
 }
 
 #textarea{
@@ -62,7 +62,7 @@ div {
 
 #html{
   display: block;
-  width : 90%;
+  width : 100%;
   position: relative;
   top:0;
   left : 0;
@@ -120,21 +120,25 @@ display : block;
 
 
 @media (min-width: 600px) {
-  #html{
+  #main{
     width : 66%;
   }
 }
 
 @media (min-width: 1400px) {
-  #html{
+  #main{
     width : 50%;
   }
 }
 
 @media (min-width: 1600px) {
-  #html{
+  #main{
     width : 33%;
   }
+}
+
+pre{
+  font: inherit;
 }
 
 h1{
@@ -157,15 +161,7 @@ h6{
   font-size: 1.2em;
 }
 
-code{
-  display:block;
-  word-break:auto;
-}
 
-#test{
-  display:block;
-  word-break:auto;
-}
 
 
 
