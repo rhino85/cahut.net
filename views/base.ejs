@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>!</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/js/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="/js/dompurify.js"></script>
@@ -11,7 +10,9 @@
       <div id="main">
         <div id="html" v-html="compiledMarkdown"></div>
         <div id="textinput" v-if="user">
-          <textarea id="textarea" :value="data.markdown" @input="update"></textarea>
+        <textarea id="textarea" :value="data.markdown" @input="update"></textarea>
+            
+
         </div>
       </div>
     </script>
