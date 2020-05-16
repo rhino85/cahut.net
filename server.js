@@ -115,9 +115,12 @@ let prefix = "";           //not sure this will stay in the future, probably bet
         req.login(user, function(err){
           console.log("logged in");
 
-          res.json(user);
-        })
-      }
+          res.json({
+            connected : true,
+            user : user
+        });
+      })
+    }
     })(req, res, next);
   });
   
@@ -131,10 +134,16 @@ app.get(prefix+'/logout',    // i need to work on this
     console.log("4 get* " + req.originalUrl);
     //console.dir("req.data : " + req.data);
     if(req.user){
-        res.render('base', {a:{ user: req.user.username, prefix:prefix, data:req.data }});
+      res.render('base', {
+        user : req.user.username,
+        data:req.data 
+    });
       }  
       else {
-        res.render('base', {a:{user: 0, prefix:prefix, data:req.data }});
+        res.render('base', {
+          user : "",
+          data:req.data 
+      });
       }
 
   });

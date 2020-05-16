@@ -2,25 +2,17 @@
 <html>
   <head>
     <title>!</title>
-    <script src="/js/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="/js/dompurify.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
-    <script type="text/x-template" id="editor-template">
-      <div id="main">
-        <div id="html" v-html="compiledMarkdown"></div>
-        <div id="textinput" v-if="user">
-        <textarea id="textarea" :value="data.markdown" @input="update"></textarea>
-            
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        </div>
-      </div>
-    </script>
+
     <script type="text/x-template" id="login-template">
-      <div id="login-form">
-        <span type="button" id="log" @click="showhide" >.</span>
+
         <form
-          v-if="show"
+          id="login-form"
           @submit="submit"
           novalidate="true"
         >
@@ -37,41 +29,36 @@
         >
         </form>
         
-      </div>
   </script>
   </head>
   <body>
-    <div id="app">
-
-      <editor></editor>
-      <logsession></logsession>
+    <div id="app" >
+      <div id="content" v-html="html"></div>
+      <span type="button" id="meta" @click="meta" >.</span>
+      <div id="textinput" v-if="showEditor">
+        <textarea id="textarea" :value="markdown" @input="editorUpdate" ref="textarea"></textarea>
+      </div>
+      <login-component v-if="showLogin" @connected="connected"></login-component>
     </div>
     
     <script>
-      var a = <%-JSON.stringify(a)%> ;
-
-      
-      console.log(a);
- 
+      var user = <%-JSON.stringify(user)%>;
+      var data = <%-JSON.stringify(data)%>;
+      console.log(data);
+      console.log(user);
             
-      var logsession = Vue.component('logsession', {
+      var logsession = Vue.component('login-component', {
         data: function () {
             return {
-              a:a.data,
-              user:a.user,
-              password:null,
-              show:false
-
+              user:null,
+              password:null
             }
         },
         template: "#login-template",
         
         methods: {
-          showhide: function(e) {
-            this.show = !this.show
-          },
-
           submit: function(e) {
+            var self = this;
             fetch("/login", {
               method: 'post',
               headers: {
@@ -81,33 +68,36 @@
               body: JSON.stringify({username:this.user, password:this.password})
               }).then(function(response) {
                 return response.json();
-              }).then((data) => {
-                console.log(data);
-                a.user = data.username;
+              }).then(function(data){
+                if(data.connected){
+                  console.log(data);
+                  self.$emit('connected');
+                }
               });
              e.preventDefault();
-             this.showhide(e)
 
           }
 
         }
       })
-      var vueEditor = Vue.component('editor',{
-        props : {}, 
-        data: function () {
-            return a
+
+      var vueApp = new Vue({
+        el: "#app",
+        data: {
+          showEditor: 0,
+          showLogin : 0,
+          isConnected : user,
+          markdown : data.markdown,
+          html : data.html,
         },
-        template: "#editor-template",
         computed: {
-          compiledMarkdown: function() {
-            this.data.html = DOMPurify.sanitize(marked(this.data.markdown));
-            return this.data.html;
-          }
+        
         },
         methods: {
-          update: function(e) {
-            //console.log(e);
-            this.data.markdown = e.target.value;
+          editorUpdate:function(e){
+            this.markdown = e.target.value;
+            this.html = DOMPurify.sanitize(marked(this.markdown));
+
             this.submit();
           },
           submit: function() {
@@ -117,12 +107,26 @@
                'Accept': 'application/json, text/plain, */*',
                'Content-Type': 'application/json'
               },
-              body: JSON.stringify({html:this.data.html, markdown:this.data.markdown})
+              body: JSON.stringify({html:this.html, markdown:this.markdown})
              });
+          }, 
+          connected: function(){
+            this.isConnected=1;
+            this.showLogin = 0;
+            this.meta();
+          },
+          meta: function(){
+            console.log("meta button click "+ this.isConnected);
+            if(!this.isConnected){
+              this.showLogin = !this.showLogin ;
+            }
+            else if(1) {
+              this.showEditor = !this.showEditor;
+              this.$nextTick(() => this.$refs.textarea.focus());
+            }
           }
         }
-      });
-      var vueApp = new Vue({el: "#app"});
+        });
     </script>
   </body>
 </html>
