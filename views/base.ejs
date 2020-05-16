@@ -13,7 +13,7 @@
 
         <form
           id="login-form"
-          @submit="submit"
+          @submit="connect"
           novalidate="true"
         >
         <div>
@@ -25,7 +25,7 @@
         </div>
         <input class="button"
           type="submit"
-          value="Submit"
+          value="connect"
         >
         </form>
         
@@ -34,11 +34,15 @@
   <body>
     <div id="app" >
       <div id="content" v-html="html"></div>
-      <span type="button" id="meta" @click="meta" >.</span>
       <div id="textinput" v-if="showEditor">
         <textarea id="textarea" :value="markdown" @input="editorUpdate" ref="textarea"></textarea>
       </div>
-      <login-component v-if="showLogin" @connected="connected"></login-component>
+      <div  id="meta-div">
+        <login-component v-if="showLogin" @connected="connected"></login-component>
+        <span id="meta-button" type="button" class="button" v-if="!showLogin"@click="meta">{{buttontext}}</span>
+      </div>
+
+      
     </div>
     
     <script>
@@ -46,7 +50,7 @@
       var data = <%-JSON.stringify(data)%>;
       console.log(data);
       console.log(user);
-            
+      
       var logsession = Vue.component('login-component', {
         data: function () {
             return {
@@ -57,7 +61,7 @@
         template: "#login-template",
         
         methods: {
-          submit: function(e) {
+          connect: function(e) {
             var self = this;
             fetch("/login", {
               method: 'post',
@@ -91,10 +95,17 @@
           html : data.html,
         },
         computed: {
-        
+          buttontext : function(){
+            if(!this.isConnected){
+              return "connect";
+            } else {
+              return "editor";
+            }
+          }
         },
         methods: {
           editorUpdate:function(e){
+            
             this.markdown = e.target.value;
             this.html = DOMPurify.sanitize(marked(this.markdown));
 
@@ -113,12 +124,13 @@
           connected: function(){
             this.isConnected=1;
             this.showLogin = 0;
-            this.meta();
           },
           meta: function(){
             console.log("meta button click "+ this.isConnected);
             if(!this.isConnected){
+              
               this.showLogin = !this.showLogin ;
+
             }
             else if(1) {
               this.showEditor = !this.showEditor;
