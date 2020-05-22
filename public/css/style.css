@@ -154,11 +154,33 @@ input{font-size: inherit;}
   #content{
     width : 50%;
   }
+  
 }
 
 @media (min-width: 1600px) {
   #content{
     width : 33%;
+  }
+  #textinput{
+    position: fixed;
+    height: 60%;
+    width : 28%;
+    top : 15%;
+    left : 2%;
+    margin: 0;
+  }
+  #textarea{
+    box-sizing: border-box;
+    display:block;
+    position: relative;
+    top : 0;
+    right : 0;
+    left : 0;
+    width : 100%;
+    height: 100%;
+    
+    resize: both;
+    margin : auto;
   }
 }
 
