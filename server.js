@@ -152,7 +152,7 @@ app.get(prefix+'/logout',    // i need to work on this
   function(req, res) {
 
     if(req.user){     
-    
+      
       routes.map.get(req.path).markdown = req.body.markdown;           //storing data in memory
       routes.map.get(req.path).html = req.body.html;    
       console.log("4 post* " + req.originalUrl);
@@ -165,10 +165,10 @@ app.get(prefix+'/logout',    // i need to work on this
           jsonfile.writeFile('public/html'+req.path+'.json', routes.map.get(req.path), function (err) {   //write the corresponding map object in file
             if (err) {
               console.error(2 + err);
-              res.send("error saving");
+              res.send({state : "error saving"});
             }
             else {
-              res.send("saved");
+              res.send({state : "saved"});
             }
           })
       });

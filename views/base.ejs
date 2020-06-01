@@ -35,7 +35,7 @@
     <div id="app" >
       <div id="content" v-html="html"></div>
       <div id="textinput" v-if="showEditor">
-        <textarea id="textarea" :value="markdown" @input="editorUpdate" ref="textarea"></textarea>
+        <textarea id="textarea" :value="markdown" @input="editorUpdate" ref="textarea" v-bind:style="syncState" ></textarea>
       </div>
       <div  id="meta-div">
         <login-component v-if="showLogin" @connected="connected"></login-component>
@@ -93,6 +93,9 @@
           isConnected : user,
           markdown : data.markdown,
           html : data.html,
+          syncState:{
+            background : "white"
+          }
         },
         computed: {
           buttontext : function(){
@@ -105,7 +108,7 @@
         },
         methods: {
           editorUpdate:function(e){
-            
+            this.syncState.background = "rgb(255, 130, 130)";
             this.markdown = e.target.value;
             this.html = DOMPurify.sanitize(marked(this.markdown));
 
@@ -119,7 +122,14 @@
                'Content-Type': 'application/json'
               },
               body: JSON.stringify({html:this.html, markdown:this.markdown})
-             });
+             }).then((response) => {
+                return response.json();
+              }).then((data) => {
+                  console.log(data.state);
+                  if(data.state=="saved"){
+                    this.syncState.background = "rgb(130, 255, 130)";
+                  }
+              });
           }, 
           connected: function(){
             this.isConnected=1;
