@@ -100,7 +100,6 @@ routes.handler = function(req, res, next){            //now thats a middlewar th
 
 }
 
-let prefix = "";           //not sure this will stay in the future, probably better solution to find
 
   app.post(prefix+'/login', function(req, res, next) {          // i need to work on this
     console.log("login post");

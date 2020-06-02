@@ -88,7 +88,7 @@
       var vueApp = new Vue({
         el: "#app",
         data: {
-          showEditor: 0,
+          toShowEditor: 1,
           showLogin : 0,
           isConnected : user,
           markdown : data.markdown,
@@ -103,6 +103,15 @@
               return "connect";
             } else {
               return "editor";
+            }
+          },
+          showEditor : function(){
+            if(this.isConnected && this.toShowEditor){
+
+              return 1;
+            }
+            else{
+              return 0;
             }
           }
         },
@@ -127,7 +136,8 @@
               }).then((data) => {
                   console.log(data.state);
                   if(data.state=="saved"){
-                    this.syncState.background = "rgb(130, 255, 130)";
+                    this.syncState.background = "white";
+                    this.syncState.transition = "0.3s";
                   }
               });
           }, 
@@ -143,7 +153,7 @@
 
             }
             else if(1) {
-              this.showEditor = !this.showEditor;
+              this.toShowEditor = !this.toShowEditor;
               this.$nextTick(() => this.$refs.textarea.focus());
             }
           }
