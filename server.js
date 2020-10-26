@@ -130,6 +130,54 @@ app.get(prefix+'/logout',    // i need to work on this
     res.redirect(prefix+'/');
   });
 
+
+  app.get(prefix+'/img/*', routes.handler, function(req, res){
+
+    if(req.user){
+      res.render('picup', {
+        user : req.user.username,
+        data:req.data 
+    });
+      }  
+      else {
+        res.render('base', {
+          user : "",
+          data:req.data 
+      });
+      }
+
+  });
+
+  app.post(prefix+'/img/*', 
+  function(req, res) {
+
+    if(req.user){     
+      
+      routes.map.get(req.path).markdown = req.body.markdown;           //storing data in memory
+      routes.map.get(req.path).html = req.body.html;    
+      console.log("4 post* " + req.originalUrl);
+      let dir = 'public/html'+ req.path.slice(0, req.path.lastIndexOf('/'));          // path of the directory if any
+      fs.mkdir(dir, { recursive: true },                                                            //create dir 
+        (err) => { 
+          if (err) { 
+            return console.error(1 + err); 
+          }
+          jsonfile.writeFile('public/html'+req.path+'.json', routes.map.get(req.path), function (err) {   //write the corresponding map object in file
+            if (err) {
+              console.error(2 + err);
+              res.send({state : "error saving"});
+            }
+            else {
+              res.send({state : "saved"});
+            }
+          })
+      });
+    }  else {res.send("???");}                           //in case not auth
+  });
+
+
+
+
   app.get(prefix+'/*', routes.handler, function(req, res){
     console.log("4 get* " + req.originalUrl);
     //console.dir("req.data : " + req.data);
@@ -148,8 +196,7 @@ app.get(prefix+'/logout',    // i need to work on this
 
   });
 
-  app.post(prefix+'/*', 
-  function(req, res) {
+  app.post(prefix+'/*', function(req, res) {
 
     if(req.user){     
       
