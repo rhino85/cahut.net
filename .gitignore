@@ -11,8 +11,5 @@ npm-debug.log
 
 public/html/*
 
-!public/html/salut/
-
-
-public/img/*
-!public/img/.gitkeep
+public/files/*
+!public/files/.gitkeep
