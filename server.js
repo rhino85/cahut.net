@@ -1,18 +1,21 @@
 var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
-const jsonfile = require('jsonfile')
+const jsonfile = require('jsonfile');
+const fileUpload = require('express-fileupload');
 var fs = require('fs');
 var db = require('./db');
 var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+app.use(fileUpload({
+   createParentPath:true,
 
+
+}));
 app.use(express.static('public'));
 
-
 // Configure the local strategy for use by Passport.
-
 passport.use(new Strategy(
   function(username, password, done) {
     db.users.findByUsername(username, function(err, user) {
@@ -100,9 +103,8 @@ routes.handler = function(req, res, next){            //now thats a middlewar th
 
 }
 
-let prefix = "";           //not sure this will stay in the future, probably better solution to find
 
-  app.post(prefix+'/login', function(req, res, next) {          // i need to work on this
+  app.post('/login', function(req, res, next) {          // i need to work on this
     console.log("login post");
     
     passport.authenticate('local', function(error, user, info) {
@@ -124,20 +126,68 @@ let prefix = "";           //not sure this will stay in the future, probably bet
     })(req, res, next);
   });
   
-app.get(prefix+'/logout',    // i need to work on this
+app.get('/logout',    // i need to work on this
   function(req, res){
     req.logout();
-    res.redirect(prefix+'/');
   });
 
-
-  app.get(prefix+'/img/*', routes.handler, function(req, res){
-
+  app.delete('/files/*', routes.handler, function(req, res){
+    console.log("mm?");
     if(req.user){
-      res.render('picup', {
-        user : req.user.username,
+      console.log("!!!!!");
+      let uri = "public" + req.path;
+      if(fs.existsSync(uri)){
+        //check if dir
+
+        fs.stat(uri,function(err, stat) {
+          if(stat.isDirectory()){
+            try {
+              fs.rmdir(uri, {recursive:true},function(err){
+                if (err) throw err;
+                console.log('deleted');
+                res.send({m:"deleted"});
+              })
+            } catch (err){
+              console.log("bon ça a pas marché lol");
+            }
+
+          }else{
+            fs.unlink("public" + req.path, function(err){
+              if (err) throw err;
+              console.log('deleted');
+              res.send({m:"deleted"});
+            })
+          }
+        });
+
+
+      } else {
+        console.log("error file not found");
+      }
+    }  
+    else {
+      res.render('base', {
+        user : "",
         data:req.data 
-    });
+      });
+    }
+  });
+
+  app.get('/files/*', routes.handler, function(req, res){
+
+  if(req.user){
+
+      if(1){  //condition à implementer (if path ends with "/")
+        fs.readdir("public" + req.path, {withFileTypes:1}, function(err, files){
+          console.log(files);
+          res.render('upload', {
+            user : req.user.username,
+            files : files,
+            path : req.path
+          });
+        })
+      }
+
       }  
       else {
         res.render('base', {
@@ -148,37 +198,103 @@ app.get(prefix+'/logout',    // i need to work on this
 
   });
 
-  app.post(prefix+'/img/*', 
-  function(req, res) {
+  app.post('/files/*', routes.handler, function(req, res){
+    console.log(req.path);
+    console.log(req.body);
+    console.log("post files");
 
-    if(req.user){     
+    if(req.user){    
+      let dir = 'public' + req.path.slice(0, req.path.lastIndexOf('/')) + "/"+ req.body.name + "/";          
+      console.log(dir);
       
-      routes.map.get(req.path).markdown = req.body.markdown;           //storing data in memory
-      routes.map.get(req.path).html = req.body.html;    
-      console.log("4 post* " + req.originalUrl);
-      let dir = 'public/html'+ req.path.slice(0, req.path.lastIndexOf('/'));          // path of the directory if any
-      fs.mkdir(dir, { recursive: true },                                                            //create dir 
+      fs.mkdir(dir, { recursive: true },                                                            
         (err) => { 
           if (err) { 
             return console.error(1 + err); 
           }
-          jsonfile.writeFile('public/html'+req.path+'.json', routes.map.get(req.path), function (err) {   //write the corresponding map object in file
-            if (err) {
-              console.error(2 + err);
-              res.send({state : "error saving"});
-            }
-            else {
-              res.send({state : "saved"});
-            }
-          })
+        }
+      )
+      res.send(req.body);
+    }  
+    else {
+      res.render('base', {
+          user : "",
+          data:req.data 
       });
+    }
+  });
+
+  app.put('/files/*', 
+  function(req, res) {
+     console.log(req.body);
+
+     console.log(req.files);
+    if(req.user){     
+      
+      if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+      }
+    
+      // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+      let sampleFile = req.files.sampleFile;  
+    
+      let tosave = req.path;  //ex : /files/loup.jpg ou /files/loup en somme /files/*
+
+
+      if(req.path.endsWith("/")){    //ex : /files/loups/
+        //better find the file a name (maybe keep the original file name, maybe ask the user), anyway i'll need to find and asign the file extension
+        tosave = tosave + sampleFile.name;     //ça donne par exemple /files/loups/loup.jpg
+      }
+      else{
+        if(req.path.includes('.')){     //si on essaye d'upload sur une url à extension ex : /files/loup.jpg
+          //alors pas besoin de rajouter l'extension à priori
+        }else{                          // url sans extention type /files/loups/1
+          tosave = tosave + sampleFile.name.slice(sampleFile.name.lastIndexOf('.'));         //je rajoute l'extension
+        }
+      }
+      console.log(tosave);
+
+      tosave="public" + tosave;
+
+      //should check here for file existence, i won't overwrite myself
+      //user will have to manually delete if he wants to actually overwrite, 
+      //but anyway, would be clever to do that front-end too
+      if(fs.existsSync(tosave)){
+         res.send({message:false});
+
+      }else{
+        sampleFile.mv(tosave, function(err) {
+          if (err)
+          {return res.status(500).send(err);}
+          else{
+            res.send({message:"cool"});
+          }
+        });
+      }
+
+
+
+      /* 
+      à tester :
+      si on essaye d'upload sur .../ (racine d'un dossier) alors il faudrait donner un nom au fichier, detecter l'extention etc...
+      sinon (.../blabla) on nomme le fichier "blabla.extention_detectée" 
+      et si (.../blabla.jpg) alors on nomme le fichier "blabla.jpg"
+      ATTENTION A NE RIEN ECRASER !
+      à faire :
+      rediriger sur la ressource une fois l'upload terminé DONE (en fait je sais pas si c'est la meilleur chose à faire)
+
+      */
+
+
+
+
     }  else {res.send("???");}                           //in case not auth
   });
 
 
 
 
-  app.get(prefix+'/*', routes.handler, function(req, res){
+  app.get('/*', routes.handler, function(req, res){
     console.log("4 get* " + req.originalUrl);
     //console.dir("req.data : " + req.data);
     if(req.user){
@@ -196,7 +312,7 @@ app.get(prefix+'/logout',    // i need to work on this
 
   });
 
-  app.post(prefix+'/*', function(req, res) {
+  app.post('/*', function(req, res) {
 
     if(req.user){     
       

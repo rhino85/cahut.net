@@ -4,7 +4,7 @@
     <title>!</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/files/css/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
@@ -22,7 +22,7 @@
         <div>
           <input type="password" name="password" v-model="password"/>
         </div>
-        <input class="button"
+        <input class="meta-button"
           type="submit"
           value="connect"
         >
@@ -44,17 +44,16 @@
 
       <div  id="meta-div">
         <login-component v-if="showLogin" @connected="connected"></login-component>
-        <span id="meta-button" type="button" class="button" v-if="!showLogin"@click="meta">{{buttontext}}</span>
+        <span id="meta-button" type="button" class="meta-button" v-if="!showLogin"@click="meta">{{buttontext}}</span>
       </div>
 
       
     </div>
     
-    <script type="text/javascript">
-
-
+    <script>
       var user = <%-JSON.stringify(user)%>;
       var data = <%-JSON.stringify(data)%>;
+      
       console.log(data);
       console.log(user);
       
@@ -86,6 +85,7 @@
                 }
               });
              e.preventDefault();
+             
 
           }
 
