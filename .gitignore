@@ -12,4 +12,4 @@ npm-debug.log
 public/html/*
 
 public/files/*
-!public/files/.gitkeep
+!public/files/.gitkeep:k
