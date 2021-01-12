@@ -103,7 +103,11 @@
 
     const createFolder = document.getElementById('createFolder');
     createFolder.addEventListener('click', function (event) {
+      if(nameInput.value.includes(" ")){
+        console.log("nope pas d'espace dans le nom dsl");
+      }else{
 
+      
       console.log("let's create a folder named : " +  nameInput.value);
       let body = {
         action: "createFolder",
@@ -126,6 +130,7 @@
 
 
       });
+      }
     });
 
 
@@ -133,6 +138,12 @@
 
 
     fileSelector.addEventListener('change', function (event) {
+      /*
+
+      */
+      if(nameInput.value.includes(" ")){
+        console.log("en vrai je suis dsl faut pas mettre d'espace dans le nom du fichier sinon, c'est super relou à gerer de mon côté, dsl c'est relou, bref");
+      }else{
 
       wait.innerHTML = "envoi en cours^^ att un peu";
       const formData = new FormData();
@@ -157,7 +168,7 @@
         .catch(error => {
           console.error('Error:', error);
         });
-    });
+    }});
 
 
 
