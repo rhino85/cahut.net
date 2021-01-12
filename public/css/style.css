@@ -56,7 +56,7 @@ div {
 
 #content{
   display: block;
-  width : 80%;
+  width : 600px;
   position: relative;
   top:0%;
   left : 0;
@@ -146,24 +146,9 @@ input{font-size: inherit;}
 
 
 
-@media (min-width: 600px) {
-  #content{
-    width : 66%;
-  }
-
-}
-
-@media (min-width: 1400px) {
-  #content{
-    width : 50%;
-  }
-  
-}
 
 @media (min-width: 1600px) {
-  #content{
-    width : 33%;
-  }
+
   #textinput{
     position: fixed;
     height: 60%;
