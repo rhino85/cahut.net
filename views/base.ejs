@@ -35,7 +35,7 @@
 
     <div id="app" >
 
-      <div id="content" v-html="html"></div>
+      <div id="content" v-html="html"><%- data.html %></div>
       
       <div id="textinput" v-if="showEditor">
         <textarea id="textarea" :value="markdown" @input="editorUpdate" ref="textarea" v-bind:style="syncState" ></textarea>
