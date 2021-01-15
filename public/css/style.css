@@ -10,15 +10,20 @@ body{
   color: #333;
   box-sizing: border-box;
   height:100%;
+  text-align:justify;
+  text-justify: auto;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
 }
 div {
   border-style: solid;
   border-width: 0px;
   box-sizing: border-box;
 }
-
-
-
+p, ul, div {
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
 
 
 #app{
@@ -33,7 +38,7 @@ div {
 
 #textinput{
   position: relative;
-  width: 96%;
+  width: 100%;
   height: 96%;
   top:2%;
   right : 0;
@@ -46,8 +51,6 @@ div {
   box-sizing: border-box;
   display:block;
   position: relative;
-
-
   width : 100%;
   height:100%;
   resize: both;
@@ -58,6 +61,7 @@ div {
   display: block;
   width : 600px;
   position: relative;
+  
   top:0%;
   left : 0;
   right : 0;
@@ -70,7 +74,6 @@ a {
   text-decoration: none;
   background-color:#333;
   color: white;
-  word-break: break-all;
   
 }
 
@@ -147,7 +150,7 @@ input{font-size: inherit;}
 
 
 
-@media (min-width: 1600px) {
+@media (min-width: 1000px) {
 
   #textinput{
     position: fixed;
@@ -164,7 +167,7 @@ input{font-size: inherit;}
     top : 0;
     right : 0;
     left : 0;
-    width : 100%;
+    width : 60%;
     height: 100%;
     
     resize: both;
@@ -187,23 +190,23 @@ code{
 }
 
 h1{
-  font-size: 3em;
+  font-size: 2.618em;
 }
 h2{
-  font-size: 2em;
+  font-size: 1.618em;
 }
 h3{
-  font-size: 1.5em;
+  font-size: 1.27201964951em;
 }
 
 h4{
-  font-size: 1.4em;
+  font-size: 1.17209526285;
 }
 h5{
-  font-size: 1.3em;
+  font-size: 1.12783848556;
 }
 h6{
-  margin : 1.2em 0;
+
 }
 
 iframe {
