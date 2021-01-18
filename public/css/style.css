@@ -44,10 +44,13 @@ p, ul {
   display:block;
   position: relative;
   width : 600px;
-  height:50%;
+  height:100%;
   resize: both;
-  margin : auto;
-  font-size:0.8em}
+  padding : 25px;
+  margin:auto;
+  font-size:0.8em;
+  border-bottom: solid 10px;
+}
 
 #content{
   display: block;
@@ -154,6 +157,8 @@ input{font-size: inherit;}
     width: 25%;
     height:66%;
     resize: both;
+    border-bottom: none;
+
   }
 }
 
