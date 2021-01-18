@@ -19,8 +19,9 @@ div {
   border-style: solid;
   border-width: 0px;
   box-sizing: border-box;
+
 }
-p, ul, div {
+p, ul {
   margin-bottom: 1em;
   margin-top: 1em;
 }
@@ -36,23 +37,14 @@ p, ul, div {
   
 }
 
-#textinput{
-  position: relative;
-  width: 100%;
-  height: 96%;
-  top:2%;
-  right : 0;
-  left : 0;
-  margin : auto;
-  z-index:0;
-}
+
 
 #textarea{
   box-sizing: border-box;
   display:block;
   position: relative;
-  width : 100%;
-  height:100%;
+  width : 600px;
+  height:50%;
   resize: both;
   margin : auto;
   font-size:0.8em}
@@ -150,28 +142,18 @@ input{font-size: inherit;}
 
 
 
-@media (min-width: 1000px) {
+@media (min-width: 1400px) {
 
-  #textinput{
-    position: fixed;
-    height: 60%;
-    width : 28%;
-    top : 15%;
-    left : 2%;
-    margin: 0;
-  }
+
   #textarea{
     box-sizing: border-box;
     display:block;
-    position: relative;
-    top : 0;
-    right : 0;
-    left : 0;
-    width : 60%;
-    height: 100%;
-    
+    position: fixed;
+    top : 16%;
+    left : 10px;
+    width: 25%;
+    height:66%;
     resize: both;
-    margin : auto;
   }
 }
 

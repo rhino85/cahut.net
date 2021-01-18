@@ -35,11 +35,13 @@
 
     <div id="app" >
 
+
+      <textarea id="textarea" :value="markdown" @input="editorUpdate" ref="textarea" v-bind:style="syncState" v-if="showEditor"></textarea>
+
       <div id="content" v-html="html"><%- data.html %></div>
       
-      <div id="textinput" v-if="showEditor">
-        <textarea id="textarea" :value="markdown" @input="editorUpdate" ref="textarea" v-bind:style="syncState" ></textarea>
-      </div>
+
+
       
 
       <div  id="meta-div">
