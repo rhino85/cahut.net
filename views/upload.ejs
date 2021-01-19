@@ -28,13 +28,18 @@
       %>
       </h2>
 
-      <form ref='uploadForm' id='uploadForm' action='' method='post' encType="multipart/form-data">
-        <input type="text" id="fileName" title="en gros là tu mets le nom que tu veux donner à ton fichier/dossier sur le serveur (si tu mets rien ça lui donnera le nom qu'il avait sur ton ordi), si y'a déjà un fichier du meme nom sur le serveur ça l'uploadera pas" alt="en gros là tu mets le nom que tu veux donner à ton fichier/dossier sur le serveur (si tu mets rien ça lui donnera le nom qu'il avait sur ton ordi), si y'a déjà un fichier du meme nom sur le serveur ça l'uploadera pas" placeholder="file/folder name">
-        <label id="fileUpload" for="fileSelector" role="img" alt="creer un fichier" title="creer un fichier">📎</label>
-        <label id="createFolder" role="img" alt="creer un dossier" title="creer un dossier">📁</label>
+
+      
+      <form ref='uploadForm' id='uploadForm' action='action' method='post' encType="multipart/form-data">
+        <div id="wait"></div>
+        <input type="text" id="fileName" title="en gros là tu mets le nom que tu veux donner à ton fichier/dossier sur le serveur (si tu mets rien ça lui donnera le nom qu'il avait sur ton ordi), si y'a déjà un fichier du meme nom sur le serveur ça l'uploadera pas" alt="en gros là tu mets le nom que tu veux donner à ton fichier/dossier sur le serveur (si tu mets rien ça lui donnera le nom qu'il avait sur ton ordi), si y'a déjà un fichier du meme nom sur le serveur ça l'uploadera pas" placeholder="nom du dossier?">
+        <label id="fileUpload" for="fileSelector" role="img" alt="Uploader un fichier" title="Uploader un fichier">📎</label>
+        <label id="createFolder" role="img" alt="Créer un dossier" title="Créer un dossier">📁</label>
+        <input type="button" id="submit" value="Envoyer!!">
         <input type="file" id="fileSelector" name="sampleFile">
       </form>
-      <p id="wait"></p>
+
+
 
       <% 
       if (files) { 
@@ -44,17 +49,17 @@
       %>
       <p id="<%=    files[index].name    %>">    
         <a href="<%=    files[index].name + "/"   %>"><%=    files[index].name + "/"%></a> 
-        <span role="img" alt="j'ai mis un emoji dossier pour qu'on voit facilement que c'est un dossier, mais en vrai j'ai fait ça vite fait et c'est une mauvaise idée parcequ'on aurait envie de croire que cet émoji est un bouton, alors que non, bref, ça changera" title="j'ai mis un emoji dossier pour qu'on voit facilement que c'est un dossier, mais en vrai j'ai fait ça vite fait et c'est une mauvaise idée parcequ'on aurait envie de croire que cet émoji est un bouton, alors que non, bref, ça changera" >
+        <span role="img" alt="un emoji dossier pour dire que c'est un dossier" title="un emoji dossier pour dire que c'est un dossier" >
           📁
         </span>
-        <label class="delete" role="img" alt="si tu clique sur cette croix ça va supprimer le fichier/dossier, et y'aura pas d'avertissement mon gars fais gaffe, en vrai t'as raison je vais mettre un avertissement ça sera mieux mais je sais pas trop quand" title="si tu clique sur cette croix ça va supprimer le fichier/dossier, et y'aura pas d'avertissement mon gars fais gaffe, en vrai t'as raison je vais mettre un avertissement ça sera mieux" value="<%=   files[index].name  %>">❌</label> 
+        <label class="delete" role="img" alt="supprimer le dossier (et son contenu!!!) du serveur" title="supprimer le dossier (et son contenu!!!) du serveur" value="<%=   files[index].name  %>">❌</label> 
       </p>
       <%
           }else{   //ELSE FILE
       %>
       <p id="<%=    files[index].name    %>">
         <a href="<%=    files[index].name    %>"><%=   files[index].name  %></a> 
-        <label class="delete" role="img" alt="si tu clique sur cette croix ça va supprimer le fichier/dossier, et y'aura pas d'avertissement mon gars fais gaffe, en vrai t'as raison je vais mettre un avertissement ça sera mieux" title="si tu clique sur cette croix ça va supprimer le fichier/dossier, et y'aura pas d'avertissement mon gars fais gaffe, en vrai t'as raison je vais mettre un avertissement ça sera mieux" title="si tu clique sur cette croix ça va supprimer le fichier/dossier, et y'aura pas d'avertissement mon gars fais gaffe, en vrai je vais mettre un avertissement ça sera mieux" title="si tu clique sur cette croix ça va supprimer le fichier/dossier, et y'aura pas d'avertissement mon gars fais gaffe, en vrai je vais mettre un avertissement ça sera mieux" value="<%=   files[index].name  %>">❌</label>
+        <label class="delete" role="img" alt="supprimer le fichier du serveur" title="supprimer le fichier du serveur" value="<%=   files[index].name  %>">❌</label>
         <!-- <label class="rename" value="<%=   files[index].name  %>">🖊️</label> -->
       </p>
       <%
@@ -67,29 +72,45 @@
     </div>
   </div>
 
+  <style>
+  
+ 
+  #uploadForm {
+     min-height : 120px;
+
+  }
+    #createFolder, #fileUpload {
+      font-size : 100px;
+    }
+    
+  </style>
+
   <script>
     const wait = document.querySelector("#wait");
-
     const fileSelector = document.querySelector("#fileSelector");  //input type file
+    const nameInput = document.querySelector('#fileName');          //input type text
+    const delbuttons = document.querySelectorAll('.delete');       //les labels "❌"
+    const fileUpload = document.querySelector('#fileUpload');       //le petit trombonne
+    const createFolder = document.querySelector('#createFolder');       //le petit dossier
+    const submitButton = document.querySelector('#submit');
+
     fileSelector.style.opacity = 0;                                //on l'invibilise pck c'est moche, juste besoin de la logique qu'il permet
     fileSelector.style.cssText = "position: absolute; margin-top: 3px; margin-left: 3px; height: 1px; width: 1px;";
 
 
-    const nameInput = document.querySelector('#fileName');          //input type text
-    nameInput.style.opacity = 0.5;                                 //pour faire vaguement plus joli mdr
+    nameInput.style.display = "none";
+    submitButton.style.display = "none";
 
-    const delbuttons = document.querySelectorAll('.delete');       //les labels "❌"
-    console.log(delbuttons);
-    const fileUpload = document.querySelector('#fileUpload');       //le petit trombonne
+    
+
 
     for (let index = 0; index < delbuttons.length; index++) {      //boucle pour mettre des events listener sur les "❌"
       let button = delbuttons[index];
       button.addEventListener('click', function (event) {
+        
         if (window.confirm("FAIS BIEN ATTENTION TU ES ENTRAIN DE SUPPRIMER QUELQUE CHOSE DEFINITIVEMENT, SI C'EST UN DOSSIER TU SUPPRIME SON CONTENU AUSSI !!! j'ai pas encore eut le courage de mettre un fonction 'revenir en arrière' et je suis très masochiste alors si tu perds des trucs auquels tu tiens je vais m'en vouloir de ouf, stp fais pas de connerie, sois responsable et attentif peut-être?, je sais que les boites de dialogues qui te laissent le choix entre 'ok' et 'cancel' c'est de la merde mais bon pour le moment je me contente de ça, je peux pas me permettre d'etre trop perfectionniste sinon je ferai rien de ma vie")) { 
 
-        console.log(event.target.attributes.value.value);         //url du fichier
-        console.log(encodeURI(event.target.attributes.value.value));
-        fetch(encodeURI(event.target.attributes.value.value), {
+          fetch(encodeURI(event.target.attributes.value.value), {
           method: 'delete',
         }).then((response) => {
           return response.json();
@@ -102,34 +123,45 @@
       });
     }
 
-    const createFolder = document.getElementById('createFolder');
     createFolder.addEventListener('click', function (event) {
 
 
-      
-      console.log("let's create a folder named : " +  nameInput.value);
-      let body = {
-        action: "createFolder",
-        name: nameInput.value
-      };
-      console.log(body);
-      fetch("", {
-        method: 'post',
-        body: JSON.stringify(body),
-        headers: {
+      createFolder.style.display = "none";
+      fileUpload.style.display = "none";
+      nameInput.style.display = "inline";
+      nameInput.focus();
+      nameInput.value = "";
+      nameInput.placeholder="nom du dossier?";
+      submitButton.style.display = "inline";
+      submitButton.addEventListener('click', function (){
+        console.log("let's create a folder named : " +  nameInput.value);
+        let body = {
+          action: "createFolder",
+          name: nameInput.value
+        };
+        console.log(body);
+        fetch("", {
+          method: 'post',
+          body: JSON.stringify(body),
+          headers: {
             "Content-Type": "application/json"
           }
-      }).then((response) => {
-        return response.json();
-      }).then((data) => {
-        console.log("wow ok, i have a folder named : ");
-        console.log(data);
-        // i should append it to content wow (i tried but wow way more difficult than i thought..., i am going to reload page instead)
-        window.location.reload(); //crappy but fuck, enough for now, i will use vue in the future, i swear
+        }).then((response) => {
+          return response.json();
+        }).then((data) => {
+          console.log("wow ok, i have a folder named : ");
+          console.log(data);
+          // i should append it to content wow (i tried but wow way more difficult than i thought..., i am going to reload page instead)
+          window.location.reload(); //crappy but fuck, enough for now, i will use vue in the future, i swear
+        });
+      })
 
+    
 
-      });
+      /*
       
+
+      */
     });
 
 
@@ -137,35 +169,39 @@
 
 
     fileSelector.addEventListener('change', function (event) {
-      /*
-
-      */
-      let encodedURI = encodeURI(fileSelector.files[0].name);
-      console.log(encodedURI);
-
-
-      wait.innerHTML = "envoi en cours^^ att un peu";
-      const formData = new FormData();
-      formData.append('sampleFile', fileSelector.files[0]);
-
-
-      fetch(encodedURI, {
-        method: 'PUT',
-        body: formData
-      })
-        .then(response => response.json())
-        .then(result => {
-          console.log('Success:', result);
-          if(result.message){
-            window.location.reload(); //crappy but fuck, enough for now, i will use vue in the future, i swear
-          }else{
-            wait.innerHTML = "y'avait déjà un fichier du meme nom du coup ça n'a pas fonctionné...";
-          }
+      wait.innerHTML = "fais gaffe à ce qu'il n'y ait pas déjà un fichier du meme nom! (ça va pas l'écraser mais ça va pas marcher quoi)";
+      createFolder.style.display = "none";
+      fileUpload.style.display = "none";
+      nameInput.style.display = "inline";
+      nameInput.value = fileSelector.files[0].name;
+      nameInput.focus();
+      submitButton.style.display = "inline";
+      submitButton.addEventListener('click', function (){
+         let encodedURI = encodeURI(nameInput.value);
+         nameInput.style.display = "none";
+         submitButton.style.display = "none";
+         wait.innerHTML = "envoi en cours^^ att un peu! <br> <img src='https://cahut.net/chat-rigolo.gif'> <br><br><br>";
+         /* mettre un gif drole */
+         const formData = new FormData();
+         formData.append('sampleFile', fileSelector.files[0]);
+         fetch(encodedURI, {
+           method: 'PUT',
+           body: formData
+         })
+         .then(response => response.json())
+         .then(result => {
+           console.log('Success:', result);
+           if(result.message){
+             window.location.reload(); //crappy but fuck, enough for now, i will use vue in the future, i swear
+           }else{
+             wait.innerHTML = "y'avait déjà un fichier du meme nom du coup ça n'a pas fonctionné, je sais c'est chiant j'ameliorerai plus tard!!!";
+           }
           
-        })
+         })
         .catch(error => {
-          console.error('Error:', error);
+           console.error('Error:', error);
         });
+      });
     });
 
 

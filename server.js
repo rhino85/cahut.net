@@ -179,15 +179,18 @@ app.get('/logout',    // i need to work on this
 
   app.get('/files/*', routes.handler, function(req, res){
   console.log(req.path);
+  req.path = decodeURI(req.path);
+  let uri =decodeURI(req.path);
   if(req.user){
 
       if(1){  //condition à implementer (if path ends with "/")
-        fs.readdir("public" + req.path, {withFileTypes:1}, function(err, files){
+        fs.readdir("public" + uri, {withFileTypes:1}, function(err, files){
+          console.log(uri);
           console.log(files);
           res.render('upload', {
             user : req.user.username,
             files : files,
-            path : req.path
+            path : uri
           });
         })
       }
