@@ -141,17 +141,18 @@
       /*
 
       */
-      if(nameInput.value.includes(" ")){
-        console.log("en vrai je suis dsl faut pas mettre d'espace dans le nom du fichier sinon, c'est super relou à gerer de mon côté, dsl c'est relou, bref");
+      let encodedURI = encodeURI(fileSelector.files[0].name);
+      console.log(encodedURI);
+      if(0){
+        wait.innerHTML ="en vrai je suis dsl faut pas mettre d'espace dans le nom du fichier sinon, c'est super relou à gerer de mon côté, dsl c'est relou, bref";
       }else{
 
       wait.innerHTML = "envoi en cours^^ att un peu";
       const formData = new FormData();
-      formData.append('name', nameInput.value);
       formData.append('sampleFile', fileSelector.files[0]);
 
 
-      fetch(nameInput.value, {
+      fetch(encodedURI, {
         method: 'PUT',
         body: formData
       })
