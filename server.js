@@ -132,10 +132,12 @@ app.get('/logout',    // i need to work on this
   });
 
   app.delete('/files/*', routes.handler, function(req, res){
-    console.log("mm?");
+    console.log("delete : ");
+    console.log(req.path);
     if(req.user){
       console.log("!!!!!");
-      let uri = "public" + req.path;
+      let uri = "public" + decodeURI(req.path);
+      console.log(uri);
       if(fs.existsSync(uri)){
         //check if dir
 
@@ -152,7 +154,9 @@ app.get('/logout',    // i need to work on this
             }
 
           }else{
-            fs.unlink("public" + req.path, function(err){
+            console.log(uri);
+
+            fs.unlink(uri, function(err){
               if (err) throw err;
               console.log('deleted');
               res.send({m:"deleted"});
@@ -174,7 +178,7 @@ app.get('/logout',    // i need to work on this
   });
 
   app.get('/files/*', routes.handler, function(req, res){
-
+  console.log(req.path);
   if(req.user){
 
       if(1){  //condition à implementer (if path ends with "/")
@@ -198,12 +202,13 @@ app.get('/logout',    // i need to work on this
 
   });
 
-  app.post('/files/*', routes.handler, function(req, res){
+  app.post('/files/*', routes.handler, function(req, res){  //used to mkdir
     console.log(req.path);
     console.log(req.body);
-    console.log("post files");
+    console.log("post (mkdir)");
 
     if(req.user){    
+
       let dir = 'public' + req.path.slice(0, req.path.lastIndexOf('/')) + "/"+ req.body.name + "/";          
       console.log(dir);
       
@@ -226,7 +231,12 @@ app.get('/logout',    // i need to work on this
 
   app.put('/files/*', 
   function(req, res) {
+
+    console.log("*******************");
+    console.log("put files :");
      console.log(req.body);
+     console.log(req.path);
+     console.log(decodeURI(req.path));
 
      console.log(req.files);
     if(req.user){     
@@ -238,7 +248,7 @@ app.get('/logout',    // i need to work on this
       // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
       let sampleFile = req.files.sampleFile;  
     
-      let tosave = req.path;  //ex : /files/loup.jpg ou /files/loup en somme /files/*
+      let tosave = decodeURI(req.path);  //ex : /files/loup.jpg ou /files/loup en somme /files/*
 
 
       if(req.path.endsWith("/")){    //ex : /files/loups/
