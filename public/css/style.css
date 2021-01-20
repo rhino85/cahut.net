@@ -158,6 +158,7 @@ input{font-size: inherit;}
     height:66%;
     resize: both;
     border-bottom: none;
+    z-index: 999;
 
   }
 }
