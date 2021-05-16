@@ -64,9 +64,6 @@ app.use(function(req, res, next){              //silly middleware to get rid of 
 })
 
 
-
-
-
 var routes = new Object();                            //object that deals with routes
 routes.map = new Map();                               //it got a map to store them in memory (so i can avoid useless FS operation)
 routes.handler = function(req, res, next){            //now thats a middlewar that i use on "get" request
@@ -102,7 +99,7 @@ routes.handler = function(req, res, next){            //now thats a middlewar th
 }
 
 
-  app.post('/login', function(req, res, next) {          // i need to work on this
+app.post('/login', function(req, res, next) {          // i need to work on this
     console.log("login post");
     
     passport.authenticate('local', function(error, user, info) {
@@ -122,7 +119,7 @@ routes.handler = function(req, res, next){            //now thats a middlewar th
       })
     }
     })(req, res, next);
-  });
+ });
   
 app.get('/logout',    // i need to work on this
   function(req, res){
@@ -308,14 +305,35 @@ app.get('/logout',    // i need to work on this
   app.get('/*', routes.handler, function(req, res){
     console.log("4 get* " + req.originalUrl);
     //console.dir("req.data : " + req.data);
+
+    app.render('base2', {
+      user : "",
+      data:req.data 
+    }, function(err, html){
+      fs.mkdir("public/files/html-test" + req.path.slice(0, req.path.lastIndexOf('/')), { recursive: true }, (err) => {
+        if (err) throw err;
+
+        fs.writeFile("public/files/html-test"+req.originalUrl+".html", html, (err) => {
+          // throws an error, you could also catch it here
+          if (err) throw err;
+      
+          // success case, the file was saved
+          console.log('Lyric saved!');
+        });
+
+      });
+
+    });
+
+
     if(req.user){
-      res.render('base', {
+      res.render('base2', {
         user : req.user.username,
         data:req.data 
     });
       }  
       else {
-        res.render('base', {
+        res.render('base2', {
           user : "",
           data:req.data 
       });
