@@ -11,7 +11,9 @@ app.set('view engine', 'ejs');
 app.use(fileUpload({
    createParentPath:true,
 }));
-app.use(express.static('public'));
+app.use(express.static('public', { 'dotfiles': 'allow' }));
+
+
 
 // Configure the local strategy for use by Passport.
 passport.use(new Strategy(
@@ -64,37 +66,100 @@ app.use(function(req, res, next){              //silly middleware to get rid of 
 })
 
 
+var gohtml = function(req, res, next){   
+  
+  
+  //essayer de n'utiliser que ce middleware
+
+  /*
+
+    marche à suivre :
+
+    on regarde si y'a un fichier html
+       si y'en a un nickel
+       sinon on verifie qu'il n'y ait pas de json
+           pas de json : on créé le fichier html de base "vide"
+           json : on créé le fichier html correspondant
+
+
+  */
+
+ fs.access("public/html" + req.originalUrl+".html", (err) => {
+   if(err){
+    console.log('html file does not exist  : ' + req.originalUrl+".html");
+       //should check for json
+       jsonfile.readFile('public/json'+req.path+'.json', function (err, fileContent) {   
+        if (err) {          
+          console.log('nor json');  
+          req.data = "";                                                      
+
+        }
+        else {                                                                     
+          console.log("json exist lol");
+          req.data = fileContent; 
+
+        }
+        console.log('ok, creating file then');
+        app.render('base2', {
+          user : "",
+          data:req.data 
+        }, function(err, html){
+          fs.mkdir("public/html" + req.path.slice(0, req.path.lastIndexOf('/')), { recursive: true }, (err) => {
+            if (err) throw err;
+      
+            fs.writeFile("public/html"+req.originalUrl+".html", html, (err) => {
+              // throws an error, you could also catch it here
+              if (err) throw err;
+          
+              // success case, the file was saved
+              console.log('html created!');
+              req.htmlfile = "public/html"+req.originalUrl+".html";
+              console.log("next!");
+              next();
+            });
+      
+          });
+      
+        });
+      });
+   }else{
+     console.log("mmmm, file exist i guess?");
+     req.htmlfile = "public/html"+req.originalUrl+".html";
+     next();
+   }
+  
+});
+  
+
+
+
+}
+
+var gethtml = function(req, res, next){              
+
+
+}
+
 var routes = new Object();                            //object that deals with routes
-routes.map = new Map();                               //it got a map to store them in memory (so i can avoid useless FS operation)
-routes.handler = function(req, res, next){            //now thats a middlewar that i use on "get" request
+routes.jsonshit = function(req, res, next){            //now thats a middlewar that i use on "get" request
   console.log("3 routehandler " + req.originalUrl);
-  if(!routes.map.has(req.originalUrl)){                                   //if route doesn't already exist in map
-    console.log("3.1 not in map " + req.originalUrl);
-    jsonfile.readFile('public/html'+req.path+'.json', function (err, fileContent) {    // i try to read it from files
+
+    jsonfile.readFile('public/json'+req.path+'.json', function (err, fileContent) {    // i try to read it from files
       if (err) {                                                                  // if not in files
-        console.log("3.1.1 nor in file " + req.originalUrl);
-        var route = {                                                                //i create a route object to store in map
+        var route = {                                                              
           url:req.originalUrl,
-          markdown:"",
+
           html : "",
-          nothing : 1                                                                //stating it is not modified yet (latter use : no need to look for a file if nothing = 1)
         };
-        routes.map.set(req.path, route);                                             //storing in map object 
         req.data = route;                                                            //populate the res object for next 
       }
-      else {                                                                      //(else) the file already exist but not in map object
-        console.log("3.1.2 but in file " + req.originalUrl);
-        routes.map.set(req.path, fileContent);                                       //storing in map object 
+      else {                                                                      //(else) the file already exist
+
         req.data = fileContent;                                                      //populate the res object for next
       }
       next();
     });
-  }
-  else {                                                                            //if route already registred in memory
-    console.log("3.2 it's already in map " + req.originalUrl);
-    req.data = routes.map.get(req.originalUrl);    
-    next();                                 
-  }
+  
 
 }
 
@@ -126,7 +191,7 @@ app.get('/logout',    // i need to work on this
     req.logout();
   });
 
-  app.delete('/files/*', routes.handler, function(req, res){
+  app.delete('/files/*', function(req, res){
     console.log("delete : ");
     console.log(req.path);
     if(req.user){
@@ -172,7 +237,7 @@ app.get('/logout',    // i need to work on this
     }
   });
 
-  app.get('/files/*', routes.handler, function(req, res){
+  app.get('/files/*', function(req, res){
   console.log(req.path);
   req.path = decodeURI(req.path);
   let uri =decodeURI(req.path);
@@ -200,7 +265,7 @@ app.get('/logout',    // i need to work on this
 
   });
 
-  app.post('/files/*', routes.handler, function(req, res){  //used to mkdir
+  app.post('/files/*', function(req, res){  //used to mkdir
     console.log(req.path);
     console.log(req.body);
     console.log("post (mkdir)");
@@ -300,44 +365,44 @@ app.get('/logout',    // i need to work on this
   });
 
 
-
-
-  app.get('/*', routes.handler, function(req, res){
-    console.log("4 get* " + req.originalUrl);
-    //console.dir("req.data : " + req.data);
-
-    app.render('base2', {
-      user : "",
-      data:req.data 
-    }, function(err, html){
-      fs.mkdir("public/files/html-test" + req.path.slice(0, req.path.lastIndexOf('/')), { recursive: true }, (err) => {
-        if (err) throw err;
-
-        fs.writeFile("public/files/html-test"+req.originalUrl+".html", html, (err) => {
-          // throws an error, you could also catch it here
-          if (err) throw err;
-      
-          // success case, the file was saved
-          console.log('Lyric saved!');
-        });
-
-      });
-
-    });
-
-
+  app.get('/loginn', routes.jsonshit, function(req, res){
     if(req.user){
-      res.render('base2', {
+      res.render('base', {
         user : req.user.username,
         data:req.data 
     });
       }  
       else {
-        res.render('base2', {
+        res.render('base', {
           user : "",
           data:req.data 
       });
       }
+
+  });
+
+  app.get('/*', [routes.jsonshit, gohtml], function(req, res){
+    console.log("4 get* " + req.originalUrl);
+    //console.dir("req.data : " + req.data);
+
+    var options = {
+      root: __dirname,
+      dotfiles: 'allow',
+      headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true
+      }
+    }
+
+
+    res.sendFile(req.htmlfile, options, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Sent:')
+      }
+
+    });
 
   });
 
@@ -348,13 +413,13 @@ app.get('/logout',    // i need to work on this
       routes.map.get(req.path).markdown = req.body.markdown;           //storing data in memory
       routes.map.get(req.path).html = req.body.html;    
       console.log("4 post* " + req.originalUrl);
-      let dir = 'public/html'+ req.path.slice(0, req.path.lastIndexOf('/'));          // path of the directory if any
+      let dir = 'public/json'+ req.path.slice(0, req.path.lastIndexOf('/'));          // path of the directory if any
       fs.mkdir(dir, { recursive: true },                                                            //create dir 
         (err) => { 
           if (err) { 
             return console.error(1 + err); 
           }
-          jsonfile.writeFile('public/html'+req.path+'.json', routes.map.get(req.path), function (err) {   //write the corresponding map object in file
+          jsonfile.writeFile('public/json'+req.path+'.json', routes.map.get(req.path), function (err) {   //write the corresponding map object in file
             if (err) {
               console.error(2 + err);
               res.send({state : "error saving"});
