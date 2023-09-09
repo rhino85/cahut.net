@@ -1,0 +1,57 @@
+
+html,
+body{
+  position : relative ;
+  margin: 0;
+  padding:0;
+  font-family: 'Linux Libertine', Arial, sans-serif;
+  box-sizing: border-box;
+  height:100%;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+
+
+
+#content{
+  display: block;
+  width : 600px;
+  position: relative;
+  color:black;
+  top:0%;
+  left : 0;
+  right : 0;
+  padding: 33vh 10px;
+  margin: 0 auto;
+}
+
+
+a {
+
+  text-decoration: none;
+  background-color:black;
+  color: white;
+  
+}
+
+a:hover {
+  background-color:white;
+  color:black;
+}
+
+
+
+
+#login-form{
+  position: relative;
+  margin: 0;
+  width: auto;  
+  font-size: inherit;
+}
+input{font-size: inherit;}
+
+
+
+
+

@@ -1,0 +1,82 @@
+#interface{
+  box-sizing: border-box;
+  display:block;
+  position: relative;
+  width : 500px;
+  height:800px;
+  resize: both;
+  margin:auto;
+  font-size:10px;
+  vertical-align: top;
+
+  z-index: 999;
+}
+
+#textarea{
+position:relative;
+width : 95%;
+height : 90%;
+transition: all 0.3s ease 0s;
+font-family: monospace;
+
+}
+
+
+
+#toSource {
+  text-decoration: none;
+  background-color:black;
+  color: white;
+  position:absolute;
+  left:0px;
+  bottom:0px;
+  font-size: 2em;
+
+}
+#toSource:hover{
+  background-color:white;
+  color:black;
+}
+
+
+#hideTextArea {
+  text-decoration: none;
+  background-color:black;
+  color: white;
+  position:relative;
+  width :50px;
+  right:0px;
+  font-size: 2em;
+  text-align:center;
+
+}
+#hideTextArea:hover{
+  background-color:white;
+  color:black;
+}
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 1400px) {
+
+
+  #interface{
+    box-sizing: border-box;
+    display:block;
+    position: fixed;
+    top : 16%;
+    left : 10px;
+    width: 500px;
+    height:600px;
+    resize: both;
+    border-bottom: none;
+
+  }
+}

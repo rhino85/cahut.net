@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>FILES</title>
+  
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/interface/css/filesNavigation.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="/interface/js/filesNavigation.js" async=""></script>
+</head>
+
+<body>
+
+  <div id="app">
+
+    <div id="content">
+      <h2 id="title"></h2>
+
+
+     
+      
+      <form ref='uploadForm' id='uploadForm' action='action' method='post' encType="multipart/form-data">
+        <div id="wait"></div>
+        <input type="text" id="fileName" title="en gros là tu mets le nom que tu veux donner à ton fichier/dossier sur le serveur (si tu mets rien ça lui donnera le nom qu'il avait sur ton ordi), si y'a déjà un fichier du meme nom sur le serveur ça l'uploadera pas" alt="en gros là tu mets le nom que tu veux donner à ton fichier/dossier sur le serveur (si tu mets rien ça lui donnera le nom qu'il avait sur ton ordi), si y'a déjà un fichier du meme nom sur le serveur ça l'uploadera pas" placeholder="nom du dossier?">
+        <label id="fileUpload" for="fileSelector" role="img" alt="Uploader un fichier" title="Uploader un fichier" >📎</label>
+        <label id="createFolder" role="img" alt="Créer un dossier" title="Créer un dossier">📁</label>
+        <input type="button" id="submit" value="Envoyer!!">
+        <input type="file" id="fileSelector" name="sampleFile" multiple="true">
+      </form>
+ 
+
+
+    <div id="file-list"></div>
+    </div>
+
+  </div>
+
+  <style>
+  
+ 
+  #uploadForm {
+     min-height : 120px;
+
+  }
+    #createFolder, #fileUpload {
+      font-size : 100px;
+    }
+    
+  </style>
+
+  <script>
+
+
+
+
+  </script>
+
+
+</body>
+
+</html>
