@@ -1,0 +1,50 @@
+
+
+body{
+  position : relative ;
+  margin: 0;
+  padding:0;
+  font-family: 'Linux Libertine', Arial, sans-serif;
+  box-sizing: border-box;
+  height:100%;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  background-color:#023020;
+  text-align:center;
+}
+
+
+
+#textarea{
+  box-sizing: border-box;
+  display:block;
+  position: relative;
+  width : 1200px;
+  height: 1000px;
+  resize: both;
+  margin:100px auto ;
+  font-size :0.8;
+  font-family: monospace; 
+  vertical-align: top;
+  z-index: 999;
+}
+
+
+h1 {
+  color:white;
+}
+
+
+a {
+
+  text-decoration: none;
+  background-color:white;
+  color: #023020;
+  
+}
+
+a:hover {
+  background-color:#023020;
+  color:white;
+}
+

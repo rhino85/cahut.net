@@ -9,7 +9,6 @@ npm-debug.log
 
 .vscode/
 
-public/html/*
+conversion-script.js
 
-public/files/*
-!public/files/.gitkeep
+views/

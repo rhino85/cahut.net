@@ -1,4 +1,5 @@
-@import 'LL.css';
+@import 'Linux-Libertine.css';
+
 
 html,
 body{
@@ -6,57 +7,28 @@ body{
   margin: 0;
   padding:0;
   font-family: 'Linux Libertine', Arial, sans-serif;
-  font-size: 1.2em;
-  color: #333;
+  
+  font-size:1.2em;
   box-sizing: border-box;
   height:100%;
-  text-align:justify;
-  text-justify: auto;
   -webkit-font-smoothing: auto;
   -moz-osx-font-smoothing: auto;
-}
-div {
-  border-style: solid;
-  border-width: 0px;
-  box-sizing: border-box;
 
 }
+
 p, ul {
   margin-bottom: 1em;
   margin-top: 1em;
 }
 
 
-#app{
-  position: relative;
-  right: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  margin : 0;
-  
-}
 
-
-
-#textarea{
-  box-sizing: border-box;
-  display:block;
-  position: relative;
-  width : 600px;
-  height:100%;
-  resize: both;
-  padding : 25px;
-  margin:auto;
-  font-size:0.8em;
-  border-bottom: solid 10px;
-}
 
 #content{
   display: block;
   width : 600px;
   position: relative;
-  
+  color:black;
   top:0%;
   left : 0;
   right : 0;
@@ -64,20 +36,19 @@ p, ul {
   margin: 0 auto;
 }
 
+
+
 a {
 
   text-decoration: none;
-  background-color:#333;
+  background-color:black;
   color: white;
   
 }
 
 a:hover {
   background-color:white;
-  color:#333;
-}
-#meta-button {
-  z-index: 999;
+  color:black;
 }
 
 img{
@@ -89,79 +60,11 @@ img{
   margin: 2% auto;
 }
 
-#login-form{
-  position: relative;
-  margin: 0;
-  width: auto;  
-  font-size: inherit;
-}
-input{font-size: inherit;}
-
-#meta-div{
-  position : fixed;
-  right : 2%;
-  top : 2%;
-  z-index:999;
-}
-
-
-
-.meta-button{
-  border: none;
-  border-radius: 0;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    overflow: visible;
-    position: absolute;
-    right:0;
-
-    /* inherit font & color from ancestor */
-    color: inherit;
-    font: inherit;
-
-    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
-    line-height: normal;
-
-    /* Corrects font smoothing for webkit */
-    -webkit-font-smoothing: inherit;
-    -moz-osx-font-smoothing: inherit;
-
-    /* Corrects inability to style clickable `input` types in iOS */
-    -webkit-appearance: none;
-    text-decoration: none;
-    background-color:#333;
-    color: white;
-
-  }
-.meta-button:hover {
-  background-color:white;
-  color:#333;
-}
 
 
 
 
 
-
-
-@media (min-width: 1400px) {
-
-
-  #textarea{
-    box-sizing: border-box;
-    display:block;
-    position: fixed;
-    top : 16%;
-    left : 10px;
-    width: 25%;
-    height:66%;
-    resize: both;
-    border-bottom: none;
-    z-index: 999;
-
-  }
-}
 
 pre{
   font: inherit;
@@ -201,10 +104,4 @@ iframe {
   width : 100%;
   height : 400px;
 }
-
-
-
-
-
-
 
