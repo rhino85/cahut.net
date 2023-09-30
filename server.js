@@ -56,13 +56,9 @@ app.use(passport.session());
 
 app.use(function(req, res, next){              //silly middleware to get rid of unwanted querystring (ex : fbclid from fb)
 
-  if (req.originalUrl == req.path){
-
-    next();
-  } else {
-
+ 
     res.redirect(req.path);
-  }
+ 
 
 
 })
