@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'label';
-    src: url('https://arthur.cahut.net/css/fonts/Label/Impact-Label.ttf'); 
+    src: url('/css/fonts/Label/Impact-Label.ttf'); 
 	
     font-weight: normal;
     font-style: normal;
@@ -8,7 +8,7 @@
 }
 @font-face {
     font-family: 'label-reverse';
-    src: url('https://arthur.cahut.net/css/fonts/Label/Impact-Label-Reversed.ttf'); 
+    src: url('/css/fonts/Label/Impact-Label-Reversed.ttf'); 
 	
     font-weight: normal;
     font-style: normal;

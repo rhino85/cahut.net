@@ -17,6 +17,9 @@ body{
   height:100%;
   -webkit-font-smoothing: auto;
   -moz-osx-font-smoothing: auto;
+   background-image : url(/files/paper.jpg);
+   font-family : OldNews;
+
 
 }
 
@@ -43,16 +46,14 @@ p, ul {
 
 
 a {
-
-  text-decoration: none;
-  background-color:black;
-  color: white;
+color:black;
+font-family:label;
+font-size : 36px;
   
 }
 
 a:hover {
-  background-color:white;
-  color:black;
+font-family:label-reverse;
 }
 
 img{

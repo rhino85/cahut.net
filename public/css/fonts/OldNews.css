@@ -1,7 +1,7 @@
 
 @font-face {
     font-family: 'OldNews';
-    src: url('https://arthur.cahut.net/css/fonts/oldnews/OldNewspaperTypes.ttf'); 
+    src: url('/css/fonts/oldnews/OldNewspaperTypes.ttf'); 
 	
     font-weight: normal;
     font-style: normal;

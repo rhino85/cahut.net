@@ -9,13 +9,15 @@
 function createFilesHtml(files) {
   let htmlString = "";
   for (let index = 0; index < files.length; index++) {
+  let encoded = encodeURI(files[index].name);
+
   if (files[index].isDirectory) {
 
-      htmlString += "<p draggable='true' id="+files[index].name+"  ondrop='drop_handler(event)' ondragenter='dragenter_handler(event)' ondragleave='dragleave_handler(event)'> <a draggable='false' href=" + window.location.pathname + files[index].name + "/>" + files[index].name + "/</a> <span style='position:absolute;right:0px'><span class='folder-icon'>📁</span><span class='delete' value="+ window.location.pathname.slice(7) + files[index].name +">❌</span></span></p>";
+      htmlString += "<p draggable='true' id="+files[index].name+"  ondrop='drop_handler(event)' ondragenter='dragenter_handler(event)' ondragleave='dragleave_handler(event)'> <a draggable='false' href=" + window.location.pathname + encoded + "/>" + files[index].name + "/</a> <span style='position:absolute;right:0px'><span class='folder-icon'>📁</span><span class='delete' value="+ window.location.pathname.slice(7) + encoded +">❌</span></span></p>";
 
     } else {
 
-      htmlString += "<p draggable='true' id="+files[index].name+" ><a draggable='false' href=" + window.location.pathname.slice(7) + files[index].name + ">" + files[index].name + "</a> <span style='position:absolute;right:0px'><a href=" + window.location.pathname.slice(7) + files[index].name + "::source>::source</a><span class='renamme-icon'>🖊️</span><span class='delete'value="+ window.location.pathname.slice(7) + files[index].name +">❌</span></span></p>";
+      htmlString += "<p draggable='true' id="+files[index].name+" ><a draggable='false' href=" + window.location.pathname.slice(7) + encoded + ">" + files[index].name + "</a> <span style='position:absolute;right:0px'><a href=" + window.location.pathname.slice(7) + encoded + "::source>::source</a><span class='renamme-icon'>🖊️</span><span class='delete'value="+ window.location.pathname.slice(7) + files[index].name +">❌</span></span></p>";
 
     }
   }

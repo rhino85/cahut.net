@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'NoirEtBlanc';
+    src: url('/css/fonts/Noir-et-Blanc/N_E_B.TTF'); 
+	
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'NoirEtBlanc';
+    src: url('/css/fonts/Noir-et-Blanc/N_E_B_B.TTF'); 
+	
+    font-weight: bold;
+    font-style: normal;
+
+}
