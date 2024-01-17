@@ -1,7 +1,8 @@
-var logoutButton = document.getElementById('logout-button');
+
       var loginButton = document.getElementById('login-button');
       var password = document.getElementById('password-field');
       var username = document.getElementById('username-field');
+      var content = document.getElementById('content');
       loginButton.onclick = connect;
       logoutButton.onclick = disconnect;
 
@@ -29,6 +30,7 @@ var logoutButton = document.getElementById('logout-button');
         }).then(function(data){
           if(data.connected){
             console.log(data);
+            content.innerHTML = content.innerHTML + "<h2>C'est bon t'es connecté!!!!</h2> <br> dsl cette page est un peu moche et bricolée (ce qui peut être chouette aussi, mais bon je la changerai quand même à un moment)"
           }
         });
         

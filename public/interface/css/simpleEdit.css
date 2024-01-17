@@ -1,58 +1,94 @@
 #interface{
-  box-sizing: border-box;
+
   display:block;
+  box-sizing: border-box;
   position: relative;
   width : 500px;
   height:800px;
   resize: both;
   margin:auto;
   font-size:10px;
-  vertical-align: top;
-
+  text-align:right;
   z-index: 999;
+  overflow: hidden;
+  }
+
+
+#interface2{
+
+
+  height:100%;
+
 }
 
 #textarea{
 position:relative;
-width : 95%;
+border:1px solid black;
+box-sizing: border-box;
+width : 100%;
 height : 90%;
 transition: all 0.3s ease 0s;
 font-family: monospace;
+resize:none;
+z-index:999;
 
 }
 
 
 
-#toSource {
-  text-decoration: none;
-  background-color:black;
-  color: white;
-  position:absolute;
-  left:0px;
-  bottom:0px;
-  font-size: 2em;
+.interfacelink {
+  display:inline !important;
+  text-decoration: none !important;
+  background-color:black !important;
+  box-sizing: border-box !important;
+  color: white !important;
+  position:relative !important;
+
+  text-align:center !important;
+  right:0px !important;
+  bottom:0px !important;
+  font-size: 2em !important;
+  margin-left: 2px !important;
 
 }
-#toSource:hover{
-  background-color:white;
-  color:black;
+.interfacelink:hover{
+  background-color:white !important;
+  color:black !important;
 }
+
+
 
 
 #hideTextArea {
   text-decoration: none;
   background-color:black;
+  display:inline-block;
+  box-sizing: border-box;
   color: white;
   position:relative;
-  width :50px;
+  width :50%;
   right:0px;
   font-size: 2em;
   text-align:center;
+  cursor: pointer;
+  border-right: 1px white solid;
+
 
 }
-#hideTextArea:hover{
-  background-color:white;
-  color:black;
+
+
+#moveTextArea {
+  text-decoration: none;
+  background-color:black;
+  display:inline-block;
+  color: white;
+  position:relative;
+  width :50%;
+  right:0px;
+  font-size: 2em;
+  text-align:center;
+  cursor: grab;
+
 }
 
 
@@ -68,15 +104,15 @@ font-family: monospace;
 
 
   #interface{
-    box-sizing: border-box;
     display:block;
+    box-sizing: border-box;
     position: fixed;
-    top : 16%;
+    top : 100px;
     left : 10px;
     width: 500px;
     height:600px;
     resize: both;
-    border-bottom: none;
-
+    overflow: hidden;
+    padding-bottom: 20px;
   }
 }

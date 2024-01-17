@@ -27,8 +27,6 @@ fetch(uri, {     //on recupère le code de la page à modifier
 
 
 
-var body =  document.body; //access DOM root pour ajouter button & textarea dynamiqualy (pour le moment pas utilisé)
-
 
 textarea.oninput = glup;    
 function glup (e){

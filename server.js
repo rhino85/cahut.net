@@ -43,7 +43,7 @@ passport.deserializeUser(function(id, cb) {
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
-app.use(express.json()) // for parsing application/json
+app.use(express.json({ limit: '10mb' })); // for parsing application/json
 
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 
@@ -53,12 +53,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-
 app.use(function(req, res, next){              //silly middleware to get rid of unwanted querystring (ex : fbclid from fb)
 
- 
+  if (req.originalUrl == req.path){
+
+    next();
+  } else {
+
     res.redirect(req.path);
- 
+  }
 
 
 })
