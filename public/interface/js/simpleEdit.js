@@ -45,6 +45,8 @@ var hideTextArea;
 var interfaceDiv2;
 var textarea;
 var toSource;
+var toModele;
+var moveTextArea;
 
 var unresolvedPosts = 0;
 
@@ -100,7 +102,7 @@ fetch('/connected', {             //check si on est connecté
         hideTextArea.addEventListener('click', function handleClick(event) {
           console.log("LALLAL");
           if(interfaceDiv2.style.display=="none"){
-            hideTextArea.innerHTML = "show";
+            hideTextArea.innerHTML = "hide";
             interfaceDiv2.style.display="block";
             interfaceDiv.style.width=500+"px";
             interfaceDiv.style.height=600 + "px";
