@@ -84,6 +84,9 @@ fetch('/connected', {             //check si on est connecté
         interfaceDiv2 = document.getElementById('interface2');
         interfaceDiv2.innerHTML = textarea.outerHTML; 
 
+        interfaceDiv2.innerHTML = interfaceDiv2.innerHTML + "<a class='interfacelink' id='toPublic' href='/public/'> /public/ </a>";
+
+
         interfaceDiv2.innerHTML = interfaceDiv2.innerHTML + "<a class='interfacelink' id='toModele'> modele </a>";
         toModele = document.getElementById('toModele');
         toModele.href = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")) + "/modele";
