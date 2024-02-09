@@ -1,13 +1,11 @@
 var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
-const jsonfile = require('jsonfile');
 const fileUpload = require('express-fileupload');
 var fs = require('fs');
 var db = require('./db');
 var app = express();
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+
 app.use(fileUpload({
    createParentPath:true,
 }));
